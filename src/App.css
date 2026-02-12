@@ -5,10 +5,53 @@
   text-align: center;
 }
 
-/* colorful page background */
+/* Default: Light mode */
+:root {
+  --bg-primary: #fffbeb;
+  --bg-secondary: #ffd7e9;
+  --bg-tertiary: #e6f4ff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-light: #cbd5e1;
+  --card-bg: rgba(255,255,255,0.92);
+  --card-bg-alt: rgba(255,255,255,0.78);
+  --border-color: #ddd;
+  --input-bg: #ffffff;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --bg-primary: #1a1f2e;
+  --bg-secondary: #2d1b3d;
+  --bg-tertiary: #1a2a3a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-light: #94a3b8;
+  --card-bg: rgba(30, 41, 59, 0.95);
+  --card-bg-alt: rgba(15, 23, 42, 0.85);
+  --border-color: #475569;
+  --input-bg: #1e293b;
+}
+
+/* Light mode (explicit) */
+[data-theme="light"] {
+  --bg-primary: #fffbeb;
+  --bg-secondary: #ffd7e9;
+  --bg-tertiary: #e6f4ff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-light: #cbd5e1;
+  --card-bg: rgba(255,255,255,0.92);
+  --card-bg-alt: rgba(255,255,255,0.78);
+  --border-color: #ddd;
+  --input-bg: #ffffff;
+}
+
 body {
-  background: radial-gradient(ellipse at top left, #fffbeb 0%, #ffd7e9 30%, #e6f4ff 70%);
+  background: radial-gradient(ellipse at top left, var(--bg-primary) 0%, var(--bg-secondary) 30%, var(--bg-tertiary) 70%);
   min-height: 100vh;
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .logo {
@@ -44,7 +87,7 @@ body {
 }
 
 .read-the-docs {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Booking app styles */
@@ -53,10 +96,16 @@ body {
   margin: 2rem auto;
   padding: 1rem 2rem;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+  background: linear-gradient(180deg, var(--card-bg), var(--card-bg-alt));
   border-radius: 14px;
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+  transition: background 0.3s ease;
 }
+
+[data-theme="dark"] .app-root {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
 .app-root header {
   background: linear-gradient(135deg,#7c3aed 0%,#06b6d4 100%);
   color: white;
@@ -65,8 +114,41 @@ body {
   box-shadow: 0 8px 30px rgba(12, 18, 35, 0.12);
   margin-bottom: 1rem;
 }
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-top div {
+  text-align: left;
+  flex: 1;
+}
+
 .app-root header h1 { margin:0; font-size:1.6rem }
+.app-root header h2 { margin:0.3rem 0 0; font-size:1rem; opacity:0.95 }
 .app-root header p { margin:0.4rem 0 0; opacity:0.95 }
+
+.theme-toggle {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.1);
+}
 
 .benefits {
   text-align: left;
@@ -75,9 +157,16 @@ body {
   border-radius: 10px;
   background: linear-gradient(90deg, rgba(255,250,240,0.9), rgba(255,255,255,0.85));
   border: 1px solid rgba(15,23,42,0.04);
+  transition: all 0.3s ease;
 }
-.benefits h2 { margin: 0 0 0.5rem; color: #0f172a }
-.benefits ul { margin:0; padding-left:1.1rem; color:#334155 }
+
+[data-theme="dark"] .benefits {
+  background: linear-gradient(90deg, rgba(30,41,59,0.8), rgba(30,41,59,0.7));
+  border: 1px solid rgba(148,163,184,0.2);
+}
+
+.benefits h2 { margin: 0 0 0.5rem; color: var(--text-primary) }
+.benefits ul { margin:0; padding-left:1.1rem; color: var(--text-secondary) }
 .benefits li { margin: 0.45rem 0 }
 
 .booking-form {
@@ -93,16 +182,21 @@ body {
   flex-direction: column;
   text-align: left;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .booking-form input {
   padding: 0.5rem;
   margin-top: 0.25rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
-  color: #0f172a;
-  background: #ffffff;
+  color: var(--text-primary);
+  background: var(--input-bg);
+  transition: all 0.3s ease;
+}
+
+.booking-form input::placeholder {
+  color: var(--text-light);
 }
 
 .form-actions {
@@ -114,8 +208,9 @@ body {
 .btn {
   padding: 0.5rem 0.9rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-primary);
   cursor: pointer;
 }
 .btn.primary {
@@ -132,7 +227,7 @@ body {
 .btn:hover { transform: translateY(-1px); transition: all 120ms ease }
 
 .message {
-  color: #444;
+  color: var(--text-secondary);
   margin: 0.5rem 0 1rem;
 }
 
@@ -142,16 +237,17 @@ body {
 }
 .bookings li {
   padding: 0.75rem;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   margin-bottom: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: linear-gradient(180deg, transparent, transparent);
 }
-.bookings li:nth-child(odd) { background: linear-gradient(90deg,#fff7ed,#fff) }
-.bookings li strong { color:#0f172a }
-.bookings li div { color:#334155 }
+.bookings li:nth-child(odd) { background: linear-gradient(90deg, var(--card-bg), var(--card-bg-alt)) }
+.bookings li strong { color: var(--text-primary) }
+.bookings li div { color: var(--text-secondary) }
 .booking-actions { display: flex; gap: 0.5rem; align-items:center }
 .badge {
   background: #10b981;
@@ -168,22 +264,30 @@ body {
 }
 
 .payment-panel {
-  border: 1px solid #e6f0ff;
+  border: 1px solid var(--border-color);
   padding: 1rem;
   border-radius: 8px;
   margin: 1rem 0;
-  background: #fbfdff;
+  background: var(--input-bg);
+  transition: all 0.3s ease;
 }
 .qr-wrap { display:flex; justify-content:center; margin:0.5rem 0 }
 .payment-panel img { width: 220px; height:220px; border-radius:6px }
-.qr-instruction { text-align:center; margin-top:0.5rem; font-weight:600; color:#0f172a }
+.qr-instruction { text-align:center; margin-top:0.5rem; font-weight:600; color:var(--text-primary) }
 
 .confirmation-card {
   padding: 1rem;
   border-radius: 10px;
-  background: linear-gradient(90deg, #ffffff, #fff7ed);
+  background: linear-gradient(90deg, var(--card-bg), var(--card-bg-alt));
   border: 1px solid rgba(0,0,0,0.04);
   box-shadow: 0 6px 20px rgba(12,18,35,0.06);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .confirmation-card {
+  background: linear-gradient(90deg, #1e293b, #2d3748);
+  border: 1px solid rgba(148,163,184,0.2);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
 footer {
@@ -252,7 +356,7 @@ footer {
 
 .screenshot-section h3 {
   margin: 0 0 0.8rem;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .screenshot-img {
@@ -265,6 +369,6 @@ footer {
 
 .screenshot-note {
   margin: 0.8rem 0;
-  color: #334155;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }

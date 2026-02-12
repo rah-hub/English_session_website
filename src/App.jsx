@@ -12,10 +12,17 @@ function App() {
   const [activePaymentBooking, setActivePaymentBooking] = useState(null)
   const [lastBooking, setLastBooking] = useState(null)
   const [screenshotUrl, setScreenshotUrl] = useState(null)
+  const [theme, setTheme] = useState('light')
 
   useEffect(() => {
     const raw = localStorage.getItem('bookings')
     if (raw) setBookings(JSON.parse(raw))
+  }, [])
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light'
+    setTheme(savedTheme)
+    document.documentElement.setAttribute('data-theme', savedTheme)
   }, [])
 
   useEffect(() => {
@@ -114,6 +121,12 @@ Your session with English with Priya is confirmed!`
     }
   }
 
+  function toggleTheme() {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('theme', newTheme)
+    document.documentElement.setAttribute('data-theme', newTheme)
+  }
   function handleCancel(id) {
     if (!confirm('Cancel this booking?')) return
     setBookings((list) => list.filter((b) => b.id !== id))
@@ -121,11 +134,17 @@ Your session with English with Priya is confirmed!`
   }
 
   return (
-    <div className="app-root">
+    <div className="app-root" data-theme={theme}>
       <header>
-        <h1>One-to-One Session</h1>
-        <h2>English with Priya</h2>
-        
+        <div className="header-top">
+          <div>
+            <h1>One-to-One Session</h1>
+            <h2>English with Priya</h2>
+          </div>
+          <button className="theme-toggle" onClick={toggleTheme} title="Toggle theme">
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+        </div>
         
         <p>30-minute session. Minimum payment: ₹99.</p>
       </header>
