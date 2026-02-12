@@ -93,6 +93,7 @@ body {
   flex-direction: column;
   text-align: left;
   font-weight: 600;
+  color: #0f172a;
 }
 
 .booking-form input {
@@ -100,6 +101,8 @@ body {
   margin-top: 0.25rem;
   border: 1px solid #ddd;
   border-radius: 6px;
+  color: #0f172a;
+  background: #ffffff;
 }
 
 .form-actions {
